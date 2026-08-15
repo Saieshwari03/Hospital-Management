@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Python
 __pycache__/
 *.py[cod]
@@ -19,3 +20,32 @@ venv/
 # OS Files
 .DS_Store
 Thumbs.db
+=======
+# .NET
+bin/
+obj/
+.vs/
+*.user
+*.suo
+
+# Node
+node_modules/
+dist/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# IDE
+.vscode/
+
+# Logs
+*.log
+>>>>>>> f6962a5 (chore: initialize MediShield AI project)
