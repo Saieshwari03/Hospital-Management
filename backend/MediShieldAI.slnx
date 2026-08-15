@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="MediShield.API/MediShield.API.csproj" />
+  <Project Path="MediShield.Application/MediShield.Application.csproj" />
+  <Project Path="MediShield.Domain/MediShield.Domain.csproj" />
+  <Project Path="MediShield.Infrastructure/MediShield.Infrastructure.csproj" />
+  <Project Path="MediShield.Tests/MediShield.Tests.csproj" />
+</Solution>

@@ -1,0 +1,6 @@
+@MediShield.API_HostAddress = http://localhost:5139
+
+GET {{MediShield.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
