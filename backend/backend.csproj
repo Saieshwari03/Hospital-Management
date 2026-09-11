@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
@@ -10,6 +10,7 @@
       **/bin/**;
       **/obj/**
     </DefaultItemExcludes>
+    <UserSecretsId>98468a1d-8cb9-47b8-93cf-5945cdcc0f75</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
