@@ -4,15 +4,32 @@
     <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+
+    <DefaultItemExcludes>
+      $(DefaultItemExcludes);
+      **/bin/**;
+      **/obj/**
+    </DefaultItemExcludes>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.9" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="10.0.11" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="10.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="10.0.11" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="10.0.11">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
       <PrivateAssets>all</PrivateAssets>
     </PackageReference>
-    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="10.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="MediShield.API/**/*.cs" />
+    <Compile Remove="MediShield.Application/**/*.cs" />
+    <Compile Remove="MediShield.Domain/**/*.cs" />
+    <Compile Remove="MediShield.Infrastructure/**/*.cs" />
+    <Compile Remove="MediShield.Tests/**/*.cs" />
+    <Compile Remove="app/**/*.cs" />
   </ItemGroup>
 
 </Project>

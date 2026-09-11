@@ -5,7 +5,8 @@ namespace backend.Data
 {
     public class MediShieldContext : DbContext
     {
-        public MediShieldContext(DbContextOptions<MediShieldContext> options) : base(options)
+        public MediShieldContext(DbContextOptions<MediShieldContext> options)
+            : base(options)
         {
         }
 
@@ -15,7 +16,6 @@ namespace backend.Data
         {
             base.OnModelCreating(modelBuilder);
 
-            // Configure Email to be unique
             modelBuilder.Entity<User>()
                 .HasIndex(u => u.Email)
                 .IsUnique();

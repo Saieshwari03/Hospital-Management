@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\CyberAwareX\\backend\\backend.csproj": {}
+    "D:\\MediShieldAI\\backend\\backend.csproj": {}
   },
   "projects": {
-    "D:\\CyberAwareX\\backend\\backend.csproj": {
+    "D:\\MediShieldAI\\backend\\backend.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\CyberAwareX\\backend\\backend.csproj",
+        "projectUniqueName": "D:\\MediShieldAI\\backend\\backend.csproj",
         "projectName": "backend",
-        "projectPath": "D:\\CyberAwareX\\backend\\backend.csproj",
+        "projectPath": "D:\\MediShieldAI\\backend\\backend.csproj",
         "packagesPath": "C:\\Users\\Dell\\.nuget\\packages\\",
-        "outputPath": "D:\\CyberAwareX\\backend\\obj\\",
+        "outputPath": "D:\\MediShieldAI\\backend\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Dell\\AppData\\Roaming\\NuGet\\NuGet.Config"
@@ -46,19 +46,27 @@
           "framework": "net10.0",
           "targetAlias": "net10.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[10.0.11, )"
+            },
             "Microsoft.AspNetCore.OpenApi": {
               "target": "Package",
-              "version": "[10.0.9, )"
+              "version": "[10.0.11, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[10.0.11, )"
             },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[10.0.11, )"
             },
-            "Pomelo.EntityFrameworkCore.MySql": {
+            "Npgsql.EntityFrameworkCore.PostgreSQL": {
               "target": "Package",
-              "version": "[9.0.0, )"
+              "version": "[10.0.3, )"
             }
           },
           "imports": [
@@ -80,7 +88,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.301/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.303/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
