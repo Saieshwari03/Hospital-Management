@@ -1,145 +1,254 @@
-import { useState } from "react";
-import axios from "axios";
-import "./Login.css";
 
-const API_URL = "http://localhost:5252";
+import "./Login.css";
+import MediShieldLogo from "./MediShieldLogo";
 
 function Login({ onLogin }) {
-  const [isRegister, setIsRegister] = useState(false);
-  const [form, setForm] = useState({
-    name: "",
-    email: "",
-    password: "",
-  });
-  const [message, setMessage] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e) => {
+  const handleSubmit = (e) => {
     e.preventDefault();
-    setMessage("");
-    setLoading(true);
 
-    try {
-      if (isRegister) {
-        const response = await axios.post(`${API_URL}/auth/register`, {
-          name: form.name,
-          email: form.email,
-          password: form.password,
-        });
-
-        setMessage(response.data.message || "Registration successful.");
-        setIsRegister(false);
-        setForm({
-          name: "",
-          email: form.email,
-          password: "",
-        });
-      } else {
-        /*
-          Login endpoint will be added to the backend next.
-          For now this confirms that the frontend can communicate
-          with the MediShield API.
-        */
-        onLogin();
-
-      }
-    } catch (error) {
-      setMessage(
-        error.response?.data?.message ||
-          "Unable to connect to MediShield API."
-      );
-    } finally {
-      setLoading(false);
-    }
+    // Temporary frontend authentication
+    onLogin();
   };
 
   return (
-    <div className="login-page">
-      <div className="login-brand">
-        <div className="shield">🛡️</div>
-        <h1>MediShield AI</h1>
-        <p>Healthcare Cybersecurity Platform</p>
-      </div>
+    <div className="auth-page">
 
-      <div className="login-card">
-        <div className="login-header">
-          <h2>{isRegister ? "Create Account" : "Welcome Back"}</h2>
-          <p>
-            {isRegister
-              ? "Create your security administrator account."
-              : "Sign in to access the security dashboard."}
-          </p>
-        </div>
+      {/* =====================================
+          FUTURISTIC BACKGROUND
+      ====================================== */}
 
-        <form onSubmit={handleSubmit}>
-          {isRegister && (
-            <div className="input-group">
-              <label>Full Name</label>
-              <input
-                type="text"
-                name="name"
-                placeholder="Enter your name"
-                value={form.name}
-                onChange={handleChange}
-                required
-              />
+      <div className="cyber-grid"></div>
+      <div className="scan-line"></div>
+
+      {/* =====================================
+          LEFT VISUAL SECTION
+      ====================================== */}
+
+      <div className="auth-visual">
+
+        <div className="orbit orbit-one"></div>
+        <div className="orbit orbit-two"></div>
+        <div className="orbit orbit-three"></div>
+
+        {/* Shield */}
+
+        <div className="shield-3d">
+
+          <div className="shield-core">
+
+            <div className="shield-icon">
+              <svg
+                viewBox="0 0 100 110"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M50 5L91 20V49C91 75 75 94 50 105C25 94 9 75 9 49V20Z"
+                  fill="rgba(10,35,48,.95)"
+                  stroke="#4df4ff"
+                  strokeWidth="3"
+                />
+
+                <path
+                  d="M43 29H57V43H71V57H57V71H43V57H29V43H43Z"
+                  fill="#ffffff"
+                />
+
+                <path
+                  d="M27 67H37L42 61L47 74L53 51L58 67H73"
+                  fill="none"
+                  stroke="#4df4ff"
+                  strokeWidth="2"
+                />
+              </svg>
             </div>
-          )}
 
-          <div className="input-group">
-            <label>Email Address</label>
-            <input
-              type="email"
-              name="email"
-              placeholder="admin@hospital.com"
-              value={form.email}
-              onChange={handleChange}
-              required
-            />
+            <div className="pulse-ring"></div>
+
           </div>
 
-          <div className="input-group">
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter your password"
-              value={form.password}
-              onChange={handleChange}
-              required
-            />
-          </div>
-
-          <button className="login-button" type="submit" disabled={loading}>
-            {loading
-              ? "Please wait..."
-              : isRegister
-              ? "Create Account"
-              : "Sign In"}
-          </button>
-        </form>
-
-        {message && <div className="login-message">{message}</div>}
-
-        <div className="switch-auth">
-          {isRegister ? "Already have an account?" : "Don't have an account?"}
-
-          <button onClick={() => setIsRegister(!isRegister)}>
-            {isRegister ? "Sign In" : "Create Account"}
-          </button>
         </div>
+
+        {/* ECG */}
+
+        <div className="medical-pulse">
+          ──╱╲──╱╲╱╲──
+        </div>
+
+        {/* Brand */}
+
+        <div className="visual-title">
+          <MediShieldLogo />
+        </div>
+
+        {/* System Status */}
+
+        <div className="system-status">
+          <span className="status-dot"></span>
+          SYSTEM PROTECTED
+        </div>
+
       </div>
 
-      <div className="security-note">
-        🔒 Protected healthcare security environment
+      {/* =====================================
+          LOGIN SECTION
+      ====================================== */}
+
+      <div className="auth-container">
+
+        <div className="auth-card">
+
+          {/* Header */}
+
+          <div className="auth-header">
+
+            <div className="login-brand">
+              <MediShieldLogo compact />
+            </div>
+
+            <div className="login-heading">
+
+              <span className="system-label">
+                MEDISHIELD // SECURE ACCESS
+              </span>
+
+              <h2>
+                Welcome Back
+              </h2>
+
+              <p>
+                Access the healthcare security command center
+              </p>
+
+            </div>
+
+          </div>
+
+          {/* Login Form */}
+
+          <form onSubmit={handleSubmit}>
+
+            {/* Email */}
+
+            <div className="input-group">
+
+              <label>
+                EMAIL ADDRESS
+              </label>
+
+              <div className="input-wrapper">
+
+                <span className="input-icon">
+                  ✉
+                </span>
+
+                <input
+                  type="email"
+                  placeholder="security@hospital.com"
+                  required
+                />
+
+              </div>
+
+            </div>
+
+            {/* Password */}
+
+            <div className="input-group">
+
+              <label>
+                PASSWORD
+              </label>
+
+              <div className="input-wrapper">
+
+                <span className="input-icon">
+                  🔐
+                </span>
+
+                <input
+                  type="password"
+                  placeholder="Enter secure password"
+                  required
+                />
+
+              </div>
+
+            </div>
+
+            {/* Remember / Forgot */}
+
+            <div className="form-options">
+
+              <label className="remember">
+
+                <input
+                  type="checkbox"
+                />
+
+                <span>
+                  Remember me
+                </span>
+
+              </label>
+
+              <button
+                type="button"
+                className="forgot"
+              >
+                Forgot password?
+              </button>
+
+            </div>
+
+            {/* Login Button */}
+
+            <button
+              className="auth-button"
+              type="submit"
+            >
+
+              <span>
+                ENTER COMMAND CENTER
+              </span>
+
+              <b>
+                →
+              </b>
+
+            </button>
+
+          </form>
+
+          {/* Security Channel */}
+
+          <div className="divider">
+            <span>
+              SECURE CHANNEL
+            </span>
+          </div>
+
+          {/* Security Footer */}
+
+          <div className="security-footer">
+
+            <span>
+              ● ENCRYPTED
+            </span>
+
+            <span>
+              ● JWT SECURED
+            </span>
+
+            <span>
+              ● HIPAA READY
+            </span>
+
+          </div>
+
+        </div>
+
       </div>
+
     </div>
   );
 }
