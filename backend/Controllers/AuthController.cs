@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using backend.Data;
 using backend.Models;
+using backend.Services;
 
 namespace backend.Controllers
 {
@@ -15,10 +16,14 @@ namespace backend.Controllers
     public class AuthController : ControllerBase
     {
         private readonly MediShieldContext _context;
+        private readonly JwtService _jwtService;
 
-        public AuthController(MediShieldContext context)
+        public AuthController(
+            MediShieldContext context,
+            JwtService jwtService)
         {
             _context = context;
+            _jwtService = jwtService;
         }
 
         public class UserRegisterRequest
@@ -28,28 +33,45 @@ namespace backend.Controllers
             public string Password { get; set; } = string.Empty;
         }
 
-        [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] UserRegisterRequest request)
+        public class UserLoginRequest
         {
-            if (string.IsNullOrWhiteSpace(request.Email) || string.IsNullOrWhiteSpace(request.Password) || string.IsNullOrWhiteSpace(request.Name))
+            public string Email { get; set; } = string.Empty;
+            public string Password { get; set; } = string.Empty;
+        }
+
+        [HttpPost("register")]
+        public async Task<IActionResult> Register(
+            [FromBody] UserRegisterRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.Email) ||
+                string.IsNullOrWhiteSpace(request.Password) ||
+                string.IsNullOrWhiteSpace(request.Name))
             {
-                return BadRequest(new { message = "All fields (Name, Email, Password) are required." });
+                return BadRequest(new
+                {
+                    message = "All fields (Name, Email, Password) are required."
+                });
             }
 
-            // Check if user already exists
-            var existingUser = await _context.Users.AnyAsync(u => u.Email == request.Email);
+            var email = request.Email.Trim().ToLower();
+
+            var existingUser = await _context.Users
+                .AnyAsync(u => u.Email.ToLower() == email);
+
             if (existingUser)
             {
-                return BadRequest(new { message = "Email is already registered." });
+                return BadRequest(new
+                {
+                    message = "Email is already registered."
+                });
             }
 
-            // Hash password using SHA256
             string passwordHash = HashPassword(request.Password);
 
             var newUser = new User
             {
-                Name = request.Name,
-                Email = request.Email,
+                Name = request.Name.Trim(),
+                Email = email,
                 PasswordHash = passwordHash,
                 CreatedAt = DateTime.UtcNow
             };
@@ -65,10 +87,65 @@ namespace backend.Controllers
             });
         }
 
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(
+            [FromBody] UserLoginRequest request)
+        {
+            if (string.IsNullOrWhiteSpace(request.Email) ||
+                string.IsNullOrWhiteSpace(request.Password))
+            {
+                return BadRequest(new
+                {
+                    message = "Email and password are required."
+                });
+            }
+
+            var email = request.Email.Trim().ToLower();
+
+            var user = await _context.Users
+                .FirstOrDefaultAsync(u => u.Email.ToLower() == email);
+
+            if (user == null)
+            {
+                return Unauthorized(new
+                {
+                    message = "Invalid email or password."
+                });
+            }
+
+            var passwordHash = HashPassword(request.Password);
+
+            if (user.PasswordHash != passwordHash)
+            {
+                return Unauthorized(new
+                {
+                    message = "Invalid email or password."
+                });
+            }
+
+            var token = _jwtService.GenerateToken(user);
+
+            return Ok(new
+            {
+                message = "Login successful.",
+                token = token,
+                user = new
+                {
+                    id = user.Id,
+                    name = user.Name,
+                    email = user.Email
+                }
+            });
+        }
+
         private static string HashPassword(string password)
         {
             using var sha256 = SHA256.Create();
-            var hashedBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+            var hashedBytes = sha256.ComputeHash(
+                Encoding.UTF8.GetBytes(password)
+            );
+
             return Convert.ToHexString(hashedBytes);
         }
     }
