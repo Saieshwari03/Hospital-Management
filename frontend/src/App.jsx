@@ -2,9 +2,257 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import Login from "./Login";
+import PatientRegister from "./patient/PatientRegister";
+import PatientLogin from "./patient/PatientLogin";
+import PatientDashboard from "./patient/PatientDashboard";
+import DoctorRegister from "./doctor/DoctorRegister";
+import DoctorLogin from "./doctor/DoctorLogin";
+import DoctorDashboard from "./doctor/DoctorDashboard";
+import NurseRegister from "./nurse/NurseRegister";
+import NurseLogin from "./nurse/NurseLogin";
+import NurseDashboard from "./nurse/NurseDashboard";
 import MediShieldLogo from "./MediShieldLogo";
 
-function App() {
+
+function App() {{
+  const [role, setRole] = useState(null);
+    const [page, setPage] = useState(null);
+
+    const [patient, setPatient] = useState(null);
+    const [doctor, setDoctor] = useState(null);
+    const [nurse, setNurse] = useState(null);
+
+
+    // Patient Dashboard
+
+    if (patient) {
+
+        return (
+
+            <PatientDashboard
+                patient={patient}
+                logout={() => {
+                    localStorage.removeItem(
+                        "patientToken"
+                    );
+
+                    setPatient(null);
+                    setRole(null);
+                    setPage(null);
+                }}
+            />
+
+        );
+
+    }
+
+
+    // Doctor Dashboard
+
+    if (doctor) {
+
+        return (
+
+            <DoctorDashboard
+                doctor={doctor}
+                logout={() => {
+                    localStorage.removeItem(
+                        "doctorToken"
+                    );
+
+                    setDoctor(null);
+                    setRole(null);
+                    setPage(null);
+                }}
+            />
+
+        );
+
+    }
+
+
+    // Nurse Dashboard
+
+    if (nurse) {
+
+        return (
+
+            <NurseDashboard
+                nurse={nurse}
+                logout={() => {
+                    localStorage.removeItem(
+                        "nurseToken"
+                    );
+
+                    setNurse(null);
+                    setRole(null);
+                    setPage(null);
+                }}
+            />
+
+        );
+
+    }
+
+
+    // Home
+
+    if (!role) {
+
+        return (
+
+            <div className="home">
+
+                <h1>
+                    Hospital Management System
+                </h1>
+
+                <h2>
+                    Select User
+                </h2>
+
+                <button
+                    onClick={() => setRole("patient")}
+                >
+                    Patient
+                </button>
+
+                <button
+                    onClick={() => setRole("doctor")}
+                >
+                    Doctor
+                </button>
+
+                <button
+                    onClick={() => setRole("nurse")}
+                >
+                    Nurse
+                </button>
+
+            </div>
+
+        );
+
+    }
+
+
+    // User portal
+
+    if (!page) {
+
+        return (
+
+            <div className="home">
+
+                <h1>
+                    {role.toUpperCase()} PORTAL
+                </h1>
+
+                <button
+                    onClick={() => setPage("login")}
+                >
+                    Existing {role} Login
+                </button>
+
+                <button
+                    onClick={() => setPage("register")}
+                >
+                    New {role} Registration
+                </button>
+
+                <br />
+
+                <button
+                    onClick={() => setRole(null)}
+                >
+                    Back
+                </button>
+
+            </div>
+
+        );
+
+    }
+
+
+    // Patient
+
+    if (
+        role === "patient" &&
+        page === "register"
+    ) {
+
+        return <PatientRegister />;
+
+    }
+
+
+    if (
+        role === "patient" &&
+        page === "login"
+    ) {
+
+        return (
+            <PatientLogin
+                onLogin={setPatient}
+            />
+        );
+
+    }
+
+
+    // Doctor
+
+    if (
+        role === "doctor" &&
+        page === "register"
+    ) {
+
+        return <DoctorRegister />;
+
+    }
+
+
+    if (
+        role === "doctor" &&
+        page === "login"
+    ) {
+
+        return (
+            <DoctorLogin
+                onLogin={setDoctor}
+            />
+        );
+
+    }
+
+
+    // Nurse
+
+    if (
+        role === "nurse" &&
+        page === "register"
+    ) {
+
+        return <NurseRegister />;
+
+    }
+
+
+    if (
+        role === "nurse" &&
+        page === "login"
+    ) {
+
+        return (
+            <NurseLogin
+                onLogin={setNurse}
+            />
+        );
+
+    }
+
+}
   // ==========================================
   // AUTHENTICATION
   // ==========================================
